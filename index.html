@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Verificação de Comparticipação</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 500px; margin: auto; }
+    input, button { display: block; width: 100%; padding: 8px; margin: 10px 0; }
+    #resultado { font-weight: bold; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2>Verifique a Comparticipação na Esterilização</h2>
+  
+  <label>Rendimento mensal total (€):</label>
+  <input type="number" id="rendimento" placeholder="Ex: 1500" required>
+
+  <label>Número de elementos no agregado familiar:</label>
+  <input type="number" id="elementos" placeholder="Ex: 3" required>
+
+  <button onclick="verificarComparticipacao()">Calcular</button>
+
+  <p id="resultado"></p>
+
+  <script>
+    function verificarComparticipacao() {
+      const rendimento = parseFloat(document.getElementById('rendimento').value);
+      const elementos = parseInt(document.getElementById('elementos').value);
+
+      if (isNaN(rendimento) || isNaN(elementos) || elementos === 0) {
+        document.getElementById('resultado').textContent = "Por favor, insira valores válidos.";
+        return;
+      }
+
+      const perCapita = rendimento / elementos;
+      const limite = 870;
+      let mensagem;
+
+      if (perCapita <= limite) {
+        mensagem = `Rendimento per capita: €${perCapita.toFixed(2)}. Tem direito a <strong>100% de comparticipação</strong>.`;
+      } else {
+        mensagem = `Rendimento per capita: €${perCapita.toFixed(2)}. <strong>Não tem direito a comparticipação</strong>.`;
+      }
+
+      document.getElementById('resultado').innerHTML = mensagem;
+    }
+  </script>
+</body>
+</html>
